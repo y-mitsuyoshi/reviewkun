@@ -23,15 +23,13 @@ app.message('レビュー', async ({ message, say }) => {
     }
 });
 
-(async () => {
-  // アプリを起動します
-  await app.start(process.env.PORT || 3000);
-
-  console.log('⚡️ ReviewKun Activate');
-})();
+module.exports.handler = async (event, context, callback) => {
+  const handler = await awsLambdaReceiver.start();
+  return handler(event, context, callback);
+}
 
 // GitHubでユーザーを管理をする
-// ファイルはGitHubアクションでlambdaにデプロイをする仕組みを作成する。
+// ファイルはServerless Frameworkでlambdaにデプロイをする仕組みを作成する。
 // slackに存在するユーザー名を登録する。
 let reviewers = [
   'user1',

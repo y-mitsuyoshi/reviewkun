@@ -26,7 +26,7 @@ app.message('レビュー', async ({ message, say }) => {
 })();
 
 // GitHubでユーザーを管理をする
-// ファイルはGitHubアクションでlambdaにデプロイをする仕組みを作成する。
+// ファイルはServerless Frameworkでlambdaにデプロイをする仕組みを作成する。
 // slackに存在するユーザー名を登録する。
 let reviewers = [
   'user1',
