@@ -27,7 +27,7 @@ app.message('レビュー', async ({ message, say }) => {
   // アプリを起動します
   await app.start(process.env.PORT || 3000);
 
-  console.log('⚡️ RevieeKun Activate');
+  console.log('⚡️ ReviewKun Activate');
 })();
 
 // GitHubでユーザーを管理をする
