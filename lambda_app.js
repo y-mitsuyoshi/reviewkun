@@ -1,8 +1,13 @@
-const { App } = require('@slack/bolt');
+const { App, AwsLambdaReceiver } = require('@slack/bolt');
+
+const awsLambdaReceiver = new AwsLambdaReceiver({
+  signingSecret: process.env.SLACK_SIGNING_SECRET,
+});
 
 const app = new App({
   token: process.env.SLACK_BOT_TOKEN,
-  signingSecret: process.env.SLACK_SIGNING_SECRET
+  receiver: awsLambdaReceiver,
+  processBeforeResponse: true
 });
 
 // "レビュー" を含むメッセージをリッスンします
