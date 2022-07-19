@@ -7,8 +7,7 @@ const app = new App({
 
 // "レビュー" を含むメッセージをリッスンします
 app.message('レビュー', async ({ message, say }) => {
-  if (message.text) {
-    if (message.text.indexOf('') !== -1) {
+    if (message.text.indexOf('https://github.com/') !== -1) {
       const firstReviewerNumber = Math.floor(Math.random() * reviewers.length)
       const firstReviewer = reviewers[firstReviewerNumber]
       reviewers.splice(firstReviewerNumber, 1)
@@ -17,7 +16,6 @@ app.message('レビュー', async ({ message, say }) => {
 
       await say(`レビューお願いたします。 first: <@${firstReviewer}>, second: <@${secondReviewer}>!`);
     }
-  }
 });
 
 (async () => {
