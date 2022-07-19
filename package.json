@@ -18,5 +18,8 @@
   "homepage": "https://github.com/y-mitsuyoshi/reviewkun#readme",
   "dependencies": {
     "@slack/bolt": "^3.11.1"
+  },
+  "devDependencies": {
+    "serverless": "^3.21.0"
   }
 }
