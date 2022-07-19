@@ -25,15 +25,12 @@ app.message('レビュー', async ({ message, say }) => {
   console.log('⚡️ RevieeKun Activate');
 })();
 
-let reviewers = [
-  'glorymanchesteru',
-  'hoge',
-  'fuga',
-  'hoge2',
-  'fuga2',
-];
-
-
-
-// GitHubで管理をする
+// GitHubでユーザーを管理をする
 // ファイルはGitHubアクションでlambdaにデプロイをする仕組みを作成する。
+// slackに存在するユーザー名を登録する。
+let reviewers = [
+  'user1',
+  'user2',
+  'user3',
+  'user4',
+];
