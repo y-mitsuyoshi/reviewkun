@@ -7,7 +7,6 @@ const awsLambdaReceiver = new AwsLambdaReceiver({
 const app = new App({
   token: process.env.SLACK_BOT_TOKEN,
   receiver: awsLambdaReceiver,
-  processBeforeResponse: true
 });
 
 // "レビュー" を含むメッセージをリッスンします
