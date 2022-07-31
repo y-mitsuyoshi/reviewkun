@@ -20,7 +20,7 @@ app.message('レビュー', async ({ message, say }) => {
       const secondReviewerNumber = Math.floor(Math.random() * reviewers.length)
       const secondReviewer = reviewers[secondReviewerNumber]
 
-      await say(`レビューお願いたします。 first: <@${firstReviewer}>, second: <@${secondReviewer}>!`);
+      await say({text: `レビューお願いいたします。 first: <@${firstReviewer}>, second: <@${secondReviewer}>!`, thread_ts: message.ts})
     }
 });
 
