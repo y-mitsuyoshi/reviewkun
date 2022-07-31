@@ -12,6 +12,8 @@ const app = new App({
 // "レビュー" を含むメッセージをリッスンします
 app.message('レビュー', async ({ message, say }) => {
     if (message.text.indexOf('https://github.com/') !== -1) {
+      const messageUser = reviewers.indexOf(message.user);
+      reviewers.splice(messageUser, 1)
       const firstReviewerNumber = Math.floor(Math.random() * reviewers.length)
       const firstReviewer = reviewers[firstReviewerNumber]
       reviewers.splice(firstReviewerNumber, 1)
