@@ -24,7 +24,7 @@ app.message('レビュー', async ({ message, say }) => {
       if (secondReviewer == 'undefined') {
         await say({text: `レビューお願いいたします。 first: <@${firstReviewer}>, second: <@${secondReviewer}>!`, thread_ts: message.ts})
       } else {
-        await say({text: `今はアクティブなユーザーがいないから、時間が立ってからレビューを投げてね`, thread_ts: message.ts})
+        await say({text: `今はアクティブなユーザーがいないから、時間が経ってからレビューを投げてね`, thread_ts: message.ts})
       }
     }
   }
