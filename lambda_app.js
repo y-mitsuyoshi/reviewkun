@@ -21,7 +21,7 @@ app.message('レビュー', async ({ message, say }) => {
       reviewers.splice(firstReviewerNumber, 1)
       const secondReviewerNumber = Math.floor(Math.random() * reviewers.length)
       const secondReviewer = reviewers[secondReviewerNumber]
-      if (secondReviewer == undefined) {
+      if (secondReviewer == 'undefined') {
         await say({text: `レビューお願いいたします。 first: <@${firstReviewer}>, second: <@${secondReviewer}>!`, thread_ts: message.ts})
       } else {
         await say({text: `今はアクティブなユーザーがいないから、時間が立ってからレビューを投げてね`, thread_ts: message.ts})
