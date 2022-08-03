@@ -47,7 +47,6 @@ let baseReviewers = [
   'user4',
 ];
 
-
 let reviewers = [];
 
 async function activeReviwers(reviewers) {
@@ -61,6 +60,5 @@ async function activeReviwers(reviewers) {
       await activeReviwers.push(await reviewer)
     }
   }
-
   return activeReviwers;
 }
