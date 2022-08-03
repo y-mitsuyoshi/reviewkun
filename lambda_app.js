@@ -22,9 +22,9 @@ app.message('レビュー', async ({ message, say }) => {
       const secondReviewerNumber = Math.floor(Math.random() * reviewers.length)
       const secondReviewer = await reviewers[secondReviewerNumber]
       if (secondReviewer != 'undefined' || secondReviewer != undefined) {
-        say({text: `レビューお願いいたします。 first: <@${firstReviewer}>, second: <@${secondReviewer}>!`, thread_ts: message.ts})
+        await say({text: `レビューお願いいたします。 first: <@${firstReviewer}>, second: <@${secondReviewer}>!`, thread_ts: message.ts})
       } else {
-        say({text: `今はアクティブなユーザーがいないから、時間が経ってからレビューを投げてね`, thread_ts: message.ts})
+        await say({text: `今はアクティブなユーザーがいないから、時間が経ってからレビューを投げてね`, thread_ts: message.ts})
       }
     }
   }
