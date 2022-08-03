@@ -13,9 +13,9 @@ const app = new App({
 app.message('レビュー', async ({ message, say }) => {
   try {
     if (message.text.indexOf('https://github.com/') !== -1) {
-//      const messageUser = reviewers.indexOf(message.user)
-//      reviewers.splice(messageUser, 1)
-      await activeReviwers(reviewers).then(value => {
+      const messageUser = reviewers.indexOf(message.user)
+      reviewers.splice(messageUser, 1)
+      activeReviwers(reviewers).then(value => {
         reviewers = value
       });
       const firstReviewerNumber = Math.floor(Math.random() * reviewers.length)
@@ -51,7 +51,7 @@ let reviewers = [
 
 async function activeReviwers(reviewers) {
   let activeReviwers = []
-  for (const reviewer of reviewers) {
+  for await(const reviewer of reviewers) {
     let result = await app.client.users.getPresence({
       user: reviewer
     });
