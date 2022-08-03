@@ -49,7 +49,8 @@ let reviewers = [
 
 async function activeReviwers(reviewers) {
   let activeReviwers = []
-  for await(const reviewer of reviewers) {
+  for (let i = 0; i < reviewers.length; i++) {
+    let reviewer = reviewers[i]
     let result = await app.client.users.getPresence({
       user: reviewer
     });
