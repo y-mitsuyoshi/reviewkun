@@ -13,18 +13,18 @@ const app = new App({
 app.message('レビュー', async ({ message, say }) => {
   try {
     if (message.text.indexOf('https://github.com/') !== -1) {
+      activeReviwers(baseReviewers).then(value => reviewers = value)
       const messageUser = reviewers.indexOf(message.user)
       reviewers.splice(messageUser, 1)
-      reviewers = await activeReviwers(reviewers)
       const firstReviewerNumber = Math.floor(Math.random() * reviewers.length)
-      const firstReviewer = reviewers[firstReviewerNumber]
+      const firstReviewer = await reviewers[firstReviewerNumber]
       reviewers.splice(firstReviewerNumber, 1)
       const secondReviewerNumber = Math.floor(Math.random() * reviewers.length)
-      const secondReviewer = reviewers[secondReviewerNumber]
+      const secondReviewer = await reviewers[secondReviewerNumber]
       if (secondReviewer != 'undefined' || secondReviewer != undefined) {
-        await say({text: `レビューお願いいたします。 first: <@${firstReviewer}>, second: <@${secondReviewer}>!`, thread_ts: message.ts})
+        say({text: `レビューお願いいたします。 first: <@${firstReviewer}>, second: <@${secondReviewer}>!`, thread_ts: message.ts})
       } else {
-        await say({text: `今はアクティブなユーザーがいないから、時間が経ってからレビューを投げてね`, thread_ts: message.ts})
+        say({text: `今はアクティブなユーザーがいないから、時間が経ってからレビューを投げてね`, thread_ts: message.ts})
       }
     }
   }
@@ -40,12 +40,15 @@ module.exports.handler = async (event, context, callback) => {
 }
 
 // UserIDのリスト
-let reviewers = [
+let baseReviewers = [
   'user1',
   'user2',
   'user3',
   'user4',
 ];
+
+
+let reviewers = [];
 
 async function activeReviwers(reviewers) {
   let activeReviwers = []
@@ -54,9 +57,10 @@ async function activeReviwers(reviewers) {
     let result = await app.client.users.getPresence({
       user: reviewer
     });
-    if (result.presence == 'active') {
-      activeReviwers.push(reviewer)
+    if (await result.presence == 'active') {
+      await activeReviwers.push(await reviewer)
     }
   }
+
   return activeReviwers;
 }
