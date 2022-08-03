@@ -9,8 +9,28 @@ const app = new App({
   receiver: awsLambdaReceiver,
 });
 
-// "レビュー" を含むメッセージをリッスンします
+// "レビュー" を含むメッセージをリッスンします(すべてのユーザー対象)
 app.message('レビュー', async ({ message, say }) => {
+  try {
+    if (message.text.indexOf('https://github.com/') !== -1) {
+      const messageUser = reviewers.indexOf(message.user)
+      reviewers.splice(messageUser, 1)
+      const firstReviewerNumber = Math.floor(Math.random() * reviewers.length)
+      const firstReviewer = await reviewers[firstReviewerNumber]
+      reviewers.splice(firstReviewerNumber, 1)
+      const secondReviewerNumber = Math.floor(Math.random() * reviewers.length)
+      const secondReviewer = await reviewers[secondReviewerNumber]
+      await say({text: `レビューお願いいたします。 first: <@${firstReviewer}>, second: <@${secondReviewer}>!`, thread_ts: message.ts})
+    }
+  }
+
+  catch (error) {
+    await say({text: `エラーが発生したよ: ${error}`, thread_ts: message.ts})
+  }
+});
+
+// "active review" を含むメッセージをリッスンします(アクティブユーザー対象)
+app.message('active review', async ({ message, say }) => {
   try {
     if (message.text.indexOf('https://github.com/') !== -1) {
       activeReviwers(baseReviewers).then(value => reviewers = value)
