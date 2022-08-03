@@ -13,22 +13,18 @@ const app = new App({
 app.message('レビュー', async ({ message, say }) => {
   try {
     if (message.text.indexOf('https://github.com/') !== -1) {
-      let count = 0
       const messageUser = reviewers.indexOf(message.user)
       reviewers.splice(messageUser, 1)
       reviewers = await activeReviwers(reviewers)
-      count = await count + 1
-      if (count == 1) {
-        const firstReviewerNumber = Math.floor(Math.random() * reviewers.length)
-        const firstReviewer = reviewers[firstReviewerNumber]
-        reviewers.splice(firstReviewerNumber, 1)
-        const secondReviewerNumber = Math.floor(Math.random() * reviewers.length)
-        const secondReviewer = reviewers[secondReviewerNumber]
-        if (secondReviewer != 'undefined' || secondReviewer != undefined) {
-          await say({text: `レビューお願いいたします。 first: <@${firstReviewer}>, second: <@${secondReviewer}>!`, thread_ts: message.ts})
-        } else {
-          await say({text: `今はアクティブなユーザーがいないから、時間が経ってからレビューを投げてね`, thread_ts: message.ts})
-        }
+      const firstReviewerNumber = Math.floor(Math.random() * reviewers.length)
+      const firstReviewer = reviewers[firstReviewerNumber]
+      reviewers.splice(firstReviewerNumber, 1)
+      const secondReviewerNumber = Math.floor(Math.random() * reviewers.length)
+      const secondReviewer = reviewers[secondReviewerNumber]
+      if (secondReviewer != 'undefined' || secondReviewer != undefined) {
+        await say({text: `レビューお願いいたします。 first: <@${firstReviewer}>, second: <@${secondReviewer}>!`, thread_ts: message.ts})
+      } else {
+        await say({text: `今はアクティブなユーザーがいないから、時間が経ってからレビューを投げてね`, thread_ts: message.ts})
       }
     }
   }
