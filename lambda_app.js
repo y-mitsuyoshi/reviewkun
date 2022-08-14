@@ -18,7 +18,9 @@ app.message('レビュー', async ({ message, say }) => {
       reviewers.splice(messageUser, 1)
       const firstReviewer = await reviewer(selectReviewers)
       const secondReviewer = await reviewer(selectReviewers)
-      await say({text: `レビューお願いいたします。 first: <@${firstReviewer}>, second: <@${secondReviewer}>!`, thread_ts: message.ts})
+      if (secondReviewer != 'undefined' || secondReviewer != undefined) {
+        await say({text: `レビューお願いいたします。 first: <@${firstReviewer}>, second: <@${secondReviewer}>!`, thread_ts: message.ts})
+      }
     }
   }
 
