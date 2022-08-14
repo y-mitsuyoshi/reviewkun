@@ -13,13 +13,11 @@ const app = new App({
 app.message('レビュー', async ({ message, say }) => {
   try {
     if (message.text.indexOf('https://github.com/') !== -1) {
+      let reviewers = baseReviewers.concat();
       const messageUser = reviewers.indexOf(message.user)
       reviewers.splice(messageUser, 1)
-      const firstReviewerNumber = Math.floor(Math.random() * reviewers.length)
-      const firstReviewer = await reviewers[firstReviewerNumber]
-      reviewers.splice(firstReviewerNumber, 1)
-      const secondReviewerNumber = Math.floor(Math.random() * reviewers.length)
-      const secondReviewer = await reviewers[secondReviewerNumber]
+      const firstReviewer = await reviewer(selectReviewers)
+      const secondReviewer = await reviewer(selectReviewers)
       await say({text: `レビューお願いいたします。 first: <@${firstReviewer}>, second: <@${secondReviewer}>!`, thread_ts: message.ts})
     }
   }
@@ -67,18 +65,23 @@ let baseReviewers = [
   'user4',
 ];
 
-let reviewers = [];
+async function isActive(selectReviewer) {
+  let result = await app.client.users.getPresence({
+    user: selectReviewer
+  });
+  return result.presence == 'active'
+}
 
-async function activeReviwers(reviewers) {
-  let activeReviwers = []
-  for (let i = 0; i < reviewers.length; i++) {
-    let reviewer = reviewers[i]
-    let result = await app.client.users.getPresence({
-      user: reviewer
-    });
-    if (await result.presence == 'active') {
-      await activeReviwers.push(await reviewer)
+async function reviewer(selectReviewers) {
+  let reviewer = 'undefined'
+  let count = selectReviewers.length
+  for (let i = 0; i < count; i++) {
+    let num = Math.floor(Math.random() * selectReviewers.length)
+    let tmpReviewer = selectReviewers[num]
+    selectReviewers.splice(num, 1)
+    if (await isActive(tmpReviewer)) {
+      reviewer = tmpReviewer
+      break
     }
   }
-  return activeReviwers;
 }
