@@ -79,10 +79,11 @@ app.message('active review', async ({ message, say }) => {
   }
 });
 
-app.message('質問:', async ({ message, say }) => {
+app.message('質問', async ({ message, say }) => {
   try {
-    let rsp = await openApiSearch(message.text);
-    await say(`<@${message.user}>: ${rsp}`);
+    let text = message.text.replace("質問", "")
+    let rsp = await openApiSearch(text);
+    await say({ text: `<@${message.user}>: ${rsp}`, thread_ts: message.ts });
   } catch (error) {
     console.error(error);
   }
