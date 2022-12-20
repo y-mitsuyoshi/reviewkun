@@ -9,6 +9,11 @@ const app = new App({
   receiver: awsLambdaReceiver,
 });
 
+module.exports.handler = async (event, context, callback) => {
+  const handler = await awsLambdaReceiver.start();
+  return handler(event, context, callback);
+}
+
 // "レビュー" を含むメッセージをリッスンします(すべてのユーザー対象)
 app.message('レビュー', async ({ message, say }) => {
   try {
@@ -53,11 +58,6 @@ app.message('active review', async ({ message, say }) => {
     await say({text: `エラーが発生したよ: ${error}`, thread_ts: message.ts})
   }
 });
-
-module.exports.handler = async (event, context, callback) => {
-  const handler = await awsLambdaReceiver.start();
-  return handler(event, context, callback);
-}
 
 // UserIDのリスト
 let baseReviewers = [
