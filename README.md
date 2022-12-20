@@ -1,6 +1,6 @@
 # reviewkun
 
-## デプロイ方法
+## AWS Lambda デプロイ方法
 
 
 ```
