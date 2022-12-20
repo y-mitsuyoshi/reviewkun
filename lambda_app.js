@@ -1,4 +1,24 @@
 const { App, AwsLambdaReceiver } = require('@slack/bolt');
+const { Configuration, OpenAIApi } = require("openai");
+
+const openAiConfiguration = new Configuration({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+
+const openai = new OpenAIApi(openAiConfiguration);
+
+const openApiSearch = async (text) => {
+  let rsp = await openai.createCompletion({
+    model: 'text-davinci-003',
+    prompt: text,
+    temperature: 0.9,
+    max_tokens: 1024,
+    top_p: 1.0,
+    frequency_penalty: 0,
+    presence_penalty: 0,
+  });
+  return rsp.data.choices[0].text;
+};
 
 const awsLambdaReceiver = new AwsLambdaReceiver({
   signingSecret: process.env.SLACK_SIGNING_SECRET,
@@ -56,6 +76,15 @@ app.message('active review', async ({ message, say }) => {
 
   catch (error) {
     await say({text: `エラーが発生したよ: ${error}`, thread_ts: message.ts})
+  }
+});
+
+app.message('質問:', async ({ message, say }) => {
+  try {
+    let rsp = await openApiSearch(message.text);
+    await say(`<@${message.user}>: ${rsp}`);
+  } catch (error) {
+    console.error(error);
   }
 });
 
