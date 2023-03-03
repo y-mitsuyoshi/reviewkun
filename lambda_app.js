@@ -117,3 +117,15 @@ async function reviewer(selectReviewers) {
     }
   }
 }
+
+module.exports.handler = async (event, context, callback) => {
+  callback(null, {statusCode: 200, body: JSON.stringify({ok: 'ok'})});
+  if (event.handlers['X-Slack-Retry-Num']){
+    console.log('リトライのため終了');
+    console.log(event);
+    return;
+  }
+
+  const handler = await awsLambdaReceiver.start();
+  return handler(event, context, callback);
+}
