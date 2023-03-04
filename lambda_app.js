@@ -118,12 +118,12 @@ async function reviewer(selectReviewers) {
   }
 }
 
-module.exports.handler = async (event, context, callback) => {
-  callback(null, {statusCode: 200, body: JSON.stringify({ok: 'ok'})});
-  if (event.handlers['X-Slack-Retry-Num']){
-    console.log('リトライのため終了');
-    console.log(event);
-    return;
+exports.index = async (event, context) => {
+  const body = JSON.parse(event.body);
+  if (!(body.token === slackToken)) return {"statusCode": 401, "body": "Missing Token"}
+  // 再送かをチェック
+  if (event.headers['X-Slack-Retry-Num']) {
+    return { statusCode: 200, body: JSON.stringify({ message: "No need to resend" }) };
   }
 
   const handler = await awsLambdaReceiver.start();
